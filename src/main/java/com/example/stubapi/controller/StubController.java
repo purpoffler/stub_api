@@ -23,9 +23,7 @@ public class StubController {
         response.put("login", request.get("login"));
         response.put("password", request.get("password"));
 
-        // Получение текущей даты и времени
         LocalDateTime now = LocalDateTime.now();
-        // Форматирование даты и времени
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String formattedDate = now.format(formatter);
         response.put("date", formattedDate);
