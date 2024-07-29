@@ -1,4 +1,4 @@
-package com.example.stubapi.controller;
+package example.stubapi.controller;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

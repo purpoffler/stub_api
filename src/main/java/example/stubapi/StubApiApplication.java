@@ -1,4 +1,4 @@
-package com.example.stubapi;
+package example.stubapi;
 
 
 import org.springframework.boot.SpringApplication;

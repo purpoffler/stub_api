@@ -1,4 +1,4 @@
-package com.example.stubapi.controller;
+package example.stubapi.controller;
 
 import org.hibernate.validator.constraints.Length;
 import org.springframework.web.bind.annotation.RequestBody;

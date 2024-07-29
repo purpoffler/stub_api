@@ -1,10 +1,11 @@
-package com.example.stubapi.controller;
+package example.stubapi.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Map;
 import java.util.Random;
 
 @RestController
@@ -24,6 +25,7 @@ public class StubController {
 
     @PostMapping("/postData")
     public ResponseEntity<Object> postData(@Valid @RequestBody UserRequest request) {
+
         User user = new User(request.getLogin(), request.getPassword());
 
         try {
@@ -35,11 +37,8 @@ public class StubController {
 
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
-}
 
-
-    /*
-     @PostMapping("/postData")
+    @PostMapping("/postDataMap")
     public ResponseEntity<Object> postData(@RequestBody Map<String, String> request) {
 
         if (request.size() != 2) {
@@ -61,5 +60,10 @@ public class StubController {
 
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
-    */
+}
+
+
+
+
+
 
