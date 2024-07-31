@@ -1,7 +1,5 @@
 package example.stubapi.controller;
 
-import org.hibernate.validator.constraints.Length;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.constraints.NotBlank;
 
@@ -13,6 +11,9 @@ public class UserRequest {
 
     @NotBlank(message = "Поле password не может быть пустым")
     private String password;
+
+    @NotBlank(message = "Поле email не может быть пустым")
+    private String email;
 
 
     public String getLogin() {
@@ -29,5 +30,13 @@ public class UserRequest {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
