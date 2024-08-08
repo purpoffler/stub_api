@@ -2,7 +2,7 @@ package example.stubapi.controller;
 import java.sql.*;
 
 public class DataBase {
-    private  final String url = "jdbc:postgresql://127.0.0.1:5432/postgresdb";
+    private  final String url = "jdbc:postgresql://0.0.0.0:5432/postgresdb";
     private  final String user_db = "postgres";
     private  final String password_db = "password";
 
