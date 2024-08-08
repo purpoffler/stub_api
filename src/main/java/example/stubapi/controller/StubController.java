@@ -5,6 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -19,8 +21,8 @@ public class StubController {
 
     DataBase db = new DataBase();
     Date current = new Date();
-    SimpleDateFormat f = new SimpleDateFormat("YYYY-mm-dd HH:mm:ss");
-    String date = f.format(current);
+    SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    Timestamp date_curr = Timestamp.valueOf(f.format(current));
 
     @GetMapping("/getData")
     public ResponseEntity<?> getData(@RequestParam String login) {
@@ -41,7 +43,7 @@ public class StubController {
     @PostMapping("/postData")
     public ResponseEntity<?> postData(@Valid @RequestBody UserRequest request) {
 
-        User user = new User(request.getLogin(), request.getPassword(), date, request.getEmail());
+        User user = new User(request.getLogin(), request.getPassword(), date_curr, request.getEmail());
 
 
         try {
@@ -55,12 +57,15 @@ public class StubController {
             int numb = db.insert(user);
 
             Map<String, Object> response = new HashMap<>();
-            response.put("user", user);
             response.put("Количество измененных строк - ", numb);
+            response.put("Переданный user", user.toString());
+
 
             return new ResponseEntity<>(response, HttpStatus.OK);
-        }catch (Exception e) {
-            return new ResponseEntity<>("Неверные данные", HttpStatus.BAD_REQUEST);
+        } catch (SQLException e) {
+            return new ResponseEntity<>("Ошибка при выполнении запроса - неправильные данные или такой пользователь уже существует", HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Произошла непредвиденная ошибка: ", HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -72,11 +77,11 @@ public class StubController {
             return new ResponseEntity<>("Передано неправильное количество полей", HttpStatus.BAD_REQUEST);
         }
 
-        if (request.get("login").isEmpty() && request.get("password").isEmpty() && request.get("email").isEmpty()) {
+        if (request.get("login").isEmpty() || request.get("password").isEmpty() || request.get("email").isEmpty()) {
             return new ResponseEntity<>("Поле login, password или email - пустое", HttpStatus.BAD_REQUEST);
         }
 
-        User user = new User(request.get("login"), request.get("password"), date, request.get("email"));
+        User user = new User(request.get("login"), request.get("password"), date_curr, request.get("email"));
 
         try {
             Random random = new Random();
@@ -89,16 +94,18 @@ public class StubController {
             int numb = db.insert(user);
 
             Map<String, Object> response = new HashMap<>();
-            response.put("user", user);
             response.put("Количество измененных строк - ", numb);
+            response.put("Переданный user", user.toString());
+
 
             return new ResponseEntity<>(response, HttpStatus.OK);
-        }catch (Exception e) {
-            return new ResponseEntity<>("Неверные данные", HttpStatus.BAD_REQUEST);
+        } catch (SQLException e) {
+            return new ResponseEntity<>("Ошибка при выполнении запроса - неправильные данные или такой пользователь уже существует", HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Произошла непредвиденная ошибка: ", HttpStatus.BAD_REQUEST);
         }
-
-
     }
+
 }
 
 
