@@ -25,7 +25,7 @@ public class DataBase {
                     user = new User(
                             rs.getString("login"),
                             rs.getString("password"),
-                            rs.getString("date"),
+                            rs.getTimestamp("date"),
                             rs.getString("email")
                     );
                 }else{
@@ -56,24 +56,24 @@ public class DataBase {
      try(Connection connection = DriverManager.getConnection(url, user_db, password_db);
          PreparedStatement ps = connection.prepareStatement(query)
          ){
-         System.out.println("Подключение успешно, метод insert выполняется");
+             System.out.println("Подключение успешно, метод insert выполняется");
 
-             ps.setString(1, user.login);
-             ps.setString(2, user.password);
-             ps.setTimestamp(3, user.date);
-             ps.setString(4, user.login);
-             ps.setString(5, user.email);
-         try {
-             numb = ps.executeUpdate();
-             return numb;
-         }catch (Exception e){
-             System.err.println("Данные уже есть в таблице либо неверный запрос (");
+                 ps.setString(1, user.login);
+                 ps.setString(2, user.password);
+                 ps.setTimestamp(3, user.date);
+                 ps.setString(4, user.login);
+                 ps.setString(5, user.email);
+             try {
+                 numb = ps.executeUpdate();
+             } catch (SQLException e) {
+                 throw new SQLException("Ошибка при выполнении запроса - неправильные данные или такой пользователь уже существует");
+             }
+         }catch (SQLException e) {
+             throw new SQLException("Ошибка при подключении к БД");
          }
-     }
-    return numb;
+
+        return numb;
     }
-
-
 
 
 
